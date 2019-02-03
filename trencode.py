@@ -27,9 +27,9 @@ def main (argv):
             keylen = int (arg)
 
     # call the crypto function
-    file = open(plaintext)
+    file = open(plaintext, 'rb')
     content = file.read()
-    sys.stdout = open("encoded.txt", "w")
+    sys.stdout = open("encoded.txt", "w+")
     ciphertext = encryptMessage (keylen, content)
 
     # Print the ciphertext

@@ -11,7 +11,7 @@
 #         Author:  Benedict Lo
 #
 # =====================================================================================
-import math, sys
+import math, sys, argparse
 from sys import argv
 UpperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 Alphabet = UpperCase + UpperCase.lower() + ' \t\n'
@@ -28,13 +28,33 @@ Alphabet = UpperCase + UpperCase.lower() + ' \t\n'
 #     parameters: none
 #
 # =====================================================================================
-def main():
-    if len (sys.argv[1:]) < 1:
-        print ('Usage: ./transposition_bruteforce.py file')
+def main(argv):
+
+    filename = ""
+    message = ""
+    content = ""
+
+    if len (sys.argv[1:]) < 2:
+        print ('Usage: ./transposition_bruteforce.py -f <ciphertext file> or -m <ciphertext message>')
         sys.exit(2)
-    a, filename = argv
-    file = open(filename)
-    content = file.read()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', action="store",dest="filename")
+    parser.add_argument('-m', action="store",dest="message")
+
+    print(parser.parse_args().filename)
+    print(parser.parse_args().message)
+    filename = str(parser.parse_args().filename)
+
+    if parser.parse_args().filename:
+        file = open(filename)
+        content = file.read()
+    else:
+        file = open('input.txt', 'w+')
+        file.write(parser.parse_args().message)
+        file = open('input.txt', 'r')
+        content = file.read()
+
     for key in range (1,len(content)):
         print("Trying key #%s "%(key))
         decryptedmsg = decryptMessage(key, content)
@@ -168,4 +188,4 @@ def FindEnglish (message, wordPercentage = 20, letterPercentage = 85):
     return wordsMatch and lettersMatch
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
