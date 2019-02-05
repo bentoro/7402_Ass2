@@ -27,12 +27,10 @@ def main (argv):
     # call the crypto function
     file = open(ciphertext)
     content = file.read()
-    sys.stdout = open("decoded.txt", "w")
+    output = open("decoded.txt", "w")
     plaintext = decryptMessage (keylen, content)
-
-    # Print the plaintext
-    print(plaintext)
-
+    output.write(plaintext)
+    output.close()
 #--------------------------------------------------------------------------------------
 
  # The transposition decrypt function will simulate the "columns" and
@@ -42,7 +40,7 @@ def main (argv):
 def decryptMessage(key, message):
 
     # Determine the number of columns
-    nCols = math.ceil (len (message) / key)
+    nCols = int(math.ceil(len (message) / float(key)))
 
     # Determine the number of rows
     nRows = key
@@ -51,7 +49,7 @@ def decryptMessage(key, message):
     nUnused = (nCols * nRows) - len(message)
 
     # Each string in plaintext represents a column in the grid.
-    plaintext = [''] * int(nCols)
+    plaintext = [''] * nCols
 
     # row and col point to the location of the next character in the ciphertext
     row = col = 0

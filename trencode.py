@@ -27,13 +27,12 @@ def main (argv):
             keylen = int (arg)
 
     # call the crypto function
-    file = open(plaintext, 'rb')
+    file = open(plaintext)
     content = file.read()
-    sys.stdout = open("encoded.txt", "w+")
+    output = open("encoded.txt", "w")
     ciphertext = encryptMessage (keylen, content)
-
-    # Print the ciphertext
-    print(ciphertext)
+    output.write(ciphertext)
+    output.close()
 
 
 def encryptMessage (key, message):
